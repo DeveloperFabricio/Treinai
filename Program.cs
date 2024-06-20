@@ -5,6 +5,7 @@ using MudBlazor.Services;
 using Treinaí.Components;
 using Treinaí.Components.Account;
 using Treinaí.Data;
+using Treinaí.RabbitMQ;
 using Treinaí.Repositories.AlunoRepository;
 using Treinaí.Repositories.PlanoDeTreinoRepository;
 using Treinaí.Repositories.ProfessorRepository;
@@ -27,6 +28,8 @@ builder.Services.AddScoped<IAlunoRepository, AlunoRepository>();
 builder.Services.AddScoped<IProfessorRepository, ProfessorRepository>();
 builder.Services.AddScoped<IPlanoDeTreinoRepository, PlanoDeTreinoRepository>();
 builder.Services.AddScoped<ITipoDeExercicioRepository, TipoDeExercicioRepository>();
+
+builder.Services.AddSingleton<RabbitMQService, RabbitMQService>();
 
 builder.Services.AddAuthentication(options =>
     {
