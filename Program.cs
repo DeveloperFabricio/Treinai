@@ -5,6 +5,7 @@ using MudBlazor.Services;
 using Treinaí.Components;
 using Treinaí.Components.Account;
 using Treinaí.Data;
+using Treinaí.Email;
 using Treinaí.RabbitMQ;
 using Treinaí.Repositories.AlunoRepository;
 using Treinaí.Repositories.PlanoDeTreinoRepository;
@@ -29,7 +30,8 @@ builder.Services.AddScoped<IProfessorRepository, ProfessorRepository>();
 builder.Services.AddScoped<IPlanoDeTreinoRepository, PlanoDeTreinoRepository>();
 builder.Services.AddScoped<ITipoDeExercicioRepository, TipoDeExercicioRepository>();
 
-builder.Services.AddSingleton<RabbitMQService, RabbitMQService>();
+builder.Services.AddSingleton<IRabbitMQService, RabbitMQService>();
+builder.Services.AddSingleton<IEmailService, EmailService>();
 
 builder.Services.AddAuthentication(options =>
     {
@@ -49,6 +51,11 @@ builder.Services.AddIdentityCore<ApplicationUser>()
     .AddDefaultTokenProviders();
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+
+builder.Host.ConfigureAppConfiguration((context, config) =>
+{
+    config.AddJsonFile("secrets.json", optional: true, reloadOnChange: true);
+});
 
 var app = builder.Build();
 

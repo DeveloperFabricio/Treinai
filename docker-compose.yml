@@ -7,10 +7,22 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "5000:80"
+      - "8080:8080"
+      - "8081:8081"
     depends_on:
       - db
       - rabbitmq
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Server=db;Database=Treinai;User=sa;Password=YourStrong!Passw0rd;"
+      SMTP__UserName: ${SMTP__UserName}
+      SMTP__Nome: ${SMTP__Nome}
+      SMTP__Host: ${SMTP__Host}
+      SMTP__Senha: ${SMTP__Senha}
+      SMTP__Porta: ${SMTP__Porta}
+      RabbitMQ__Host: ${RabbitMQ__Host}
+      RabbitMQ__UserName: ${RabbitMQ__UserName}
+      RabbitMQ__Password: ${RabbitMQ__Password}
 
   db:
     image: mcr.microsoft.com/mssql/server
@@ -25,3 +37,5 @@ services:
     ports:
       - "15672:15672"
       - "5672:5672"
+
+
