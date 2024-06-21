@@ -15,68 +15,49 @@ namespace Treinaí.Data
 
         internal void Seed()
         {
-            // Definindo os roles Professor e Aluno
+            
             _modelBuilder.Entity<IdentityRole>().HasData(
                 new IdentityRole
                 {
                     Id = "9d0fdc6d-bfd2-4d6f-b5a7-f1c3e8d3f029",
-                    Name = "Professor",
-                    NormalizedName = "PROFESSOR"
+                    Name = "Gestor",
+                    NormalizedName = "GESTOR"
                 },
                 new IdentityRole
                 {
                     Id = "c55cb730-961c-4b88-bc64-c1f5a93b69e4",
-                    Name = "Aluno",
-                    NormalizedName = "ALUNO"
+                    Name = "Professor",
+                    NormalizedName = "PROFESSOR"
                 }
             );
 
-            var hasher = new PasswordHasher<ApplicationUser>();
+            var hasher = new PasswordHasher<IdentityUser>();
 
-            // Criando um professor
-            _modelBuilder.Entity<ApplicationUser>().HasData(
-                new ApplicationUser
+            
+            _modelBuilder.Entity<Gestor>().HasData(
+
+                new Gestor
                 {
                     Id = "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6",
-                    Nome = "Professor João",
-                    Email = "professor.joao@exemplo.com",
+                    Nome = "TreinaÍ",
+                    Email = "treinai@exemplo.com",
                     EmailConfirmed = true,
-                    UserName = "professor.joao@exemplo.com",
-                    NormalizedEmail = "PROFESSOR.JOAO@EXEMPLO.COM",
-                    NormalizedUserName = "PROFESSOR.JOAO@EXEMPLO.COM",
+                    UserName = "treinai@exemplo.com",
+                    NormalizedEmail = "TREINAI@EXEMPLO.COM",
+                    NormalizedUserName = "TREINAI@EXEMPLO.COM",
                     PasswordHash = hasher.HashPassword(null, "ProfSenha123"),
                    
                 }
             );
 
-            // Criando um aluno
-            _modelBuilder.Entity<ApplicationUser>().HasData(
-                new ApplicationUser
-                {
-                    Id = "z1x2c3v4-b5n6-m7a8-s9d0-f1g2h3j4k5l6",
-                    Nome = "Aluno Maria",
-                    Email = "aluno.maria@exemplo.com",
-                    EmailConfirmed = true,
-                    UserName = "aluno.maria@exemplo.com",
-                    NormalizedEmail = "ALUNO.MARIA@EXEMPLO.COM",
-                    NormalizedUserName = "ALUNO.MARIA@EXEMPLO.COM",
-                    PasswordHash = hasher.HashPassword(null, "AlunoSenha123"),
-                   
-                }
-            );
-
-            // Associando os usuários aos seus roles
+           
             _modelBuilder.Entity<IdentityUserRole<string>>().HasData(
                 new IdentityUserRole<string>
                 {
                     RoleId = "9d0fdc6d-bfd2-4d6f-b5a7-f1c3e8d3f029",
                     UserId = "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6"
-                },
-                new IdentityUserRole<string>
-                {
-                    RoleId = "c55cb730-961c-4b88-bc64-c1f5a93b69e4",
-                    UserId = "z1x2c3v4-b5n6-m7a8-s9d0-f1g2h3j4k5l6"
                 }
+               
             );
 
             _modelBuilder.Entity<TipoDeExercicio>().HasData(
