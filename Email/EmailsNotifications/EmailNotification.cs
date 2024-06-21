@@ -1,6 +1,7 @@
 ﻿using Treinaí.Models;
 using Treinaí.Repositories.AlunoRepository;
 using Treinaí.Repositories.PlanoDeTreinoRepository;
+using Treinaí.Repositories.ProfessorRepository;
 
 namespace Treinaí.Email.EmailsNotifications
 {
@@ -8,16 +9,19 @@ namespace Treinaí.Email.EmailsNotifications
     {
         private readonly IEmailService _emailService;
         private readonly IAlunoRepository _alunoRepository;
+        private readonly IProfessorRepository _professorRepository;
         private readonly IPlanoDeTreinoRepository _planoDeTreinoRepository;
         private readonly IConfiguration _configuration;
 
         public EmailNotification(IEmailService emailService, 
             IAlunoRepository alunoRepository, 
+            IProfessorRepository professorRepository,
             IPlanoDeTreinoRepository planoDeTreinoRepository,
             IConfiguration configuration)
         {
             _emailService = emailService;
             _alunoRepository = alunoRepository;
+            _professorRepository = professorRepository;
             _planoDeTreinoRepository = planoDeTreinoRepository;
             _configuration = configuration;
         }
@@ -42,6 +46,29 @@ namespace Treinaí.Email.EmailsNotifications
             string mensagem = $"Olá {aluno.Nome},\n\nVocê não faz mais parte do quadro de alunos do TreinaÍ.\n\nAtenciosamente,\nEquipe Treinaí";
 
             await _emailService.EnviarEmail(emailAluno, assunto, mensagem);
+
+        }
+
+        public async Task CadastrarProfessor(Professor professor)
+        {
+            await _professorRepository.AddAsync(professor);
+
+            string emailProfessor = "fabricio_dev@outlook.com";
+            string assunto = "Novo proessor cadastrado";
+            string mensagem = $"Olá Gestor,\n\nUm novo professor se cadastrou na plataforma: {professor.Nome}.\n\nAtenciosamente,\nEquipe Treinaí";
+
+            await _emailService.EnviarEmail(emailProfessor, assunto, mensagem);
+        }
+
+        public async Task DeletarProfessor(Professor professor)
+        {
+            await _professorRepository.DeleteByIdAsync(professor.Id);
+
+            string emailProfessor = "fabricio_dev@outlook.com";
+            string assunto = "Seu perfil foi exluído";
+            string mensagem = $"Olá {professor.Nome},\n\nVocê não faz mais parte do quadro de professores do TreinaÍ.\n\nAtenciosamente,\nEquipe Treinaí";
+
+            await _emailService.EnviarEmail(emailProfessor, assunto, mensagem);
 
         }
 

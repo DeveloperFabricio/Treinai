@@ -8,7 +8,7 @@
         public string Cref { get; set; } = null!;
         public string Celular { get; set; } = null!;
         public DateTime DataCadastro { get; set; }
-        public int PlanoDeTreinoId { get; set; }
+        public int TipoDeExercicioId { get; set; }
         public TipoDeExercicio TipoDeExercicio { get; set; } = null!;
 
         public ICollection<PlanoDeTreino> Planos { get; set; } = new List<PlanoDeTreino>();

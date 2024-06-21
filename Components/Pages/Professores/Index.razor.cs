@@ -3,14 +3,14 @@ using Microsoft.AspNetCore.Components.Authorization;
 using MudBlazor;
 using Treinaí.Email.EmailsNotifications;
 using Treinaí.Models;
-using Treinaí.Repositories.AlunoRepository;
+using Treinaí.Repositories.ProfessorRepository;
 
-namespace Treinaí.Components.Pages.Alunos
+namespace Treinaí.Components.Pages.Professores
 {
-    public class IndexPage : ComponentBase
+    public class IndexProfessorPage : ComponentBase  
     {
         [Inject]
-        public IAlunoRepository Repository { get; set; } = null!;
+        public IProfessorRepository Repository { get; set; } = null!;
 
         [Inject]
         public IDialogService Dialog { get; set; } = null!;
@@ -23,53 +23,52 @@ namespace Treinaí.Components.Pages.Alunos
 
         [Inject]
         public EmailNotification Notification { get; set; } = null!;
+        public List<Professor> Professores { get; set; } = new List<Professor>();
 
-        public List<Aluno> Alunos { get; set; } = new List<Aluno>();
-
-        public bool HideButtons { get; set; }
-
-        [CascadingParameter]
-        private Task<AuthenticationState> AuthenticationState { get; set; }
-
-        public async Task DeleteAluno(Aluno aluno)
+        public async Task DeleteProfessorAsync(Professor professor)
         {
             try
             {
                 var result = await Dialog.ShowMessageBox(
 
                     "Atenção",
-                    $"Deseja excluir o aluno {aluno.Nome}?",
+                    $"Deseja excluir o professor {professor.Nome}?",
                     yesText: "SIM",
-                    cancelText: "NÃO"
+                    cancelText: "NÂO"
                 );
 
                 if (result is true)
                 {
-                    await Repository.DeleteByIdAsync(aluno.Id);
+                    await Repository.DeleteByIdAsync(professor.Id);
 
-                    await Notification.DeletarAluno(aluno);
+                    await Notification.DeletarProfessor(professor);
 
-                    Snackbar.Add($"Aluno {aluno.Nome} excluído com sucesso!", Severity.Success);
+                    Snackbar.Add("Professor excluído com sucesso!", Severity.Success);
                     await OnInitializedAsync();
                 }
             }
             catch (Exception ex)
             {
                 Snackbar.Add(ex.Message, Severity.Error);
-            }
+            };
         }
 
+        public bool HideButtons { get; set; }
+
+        [CascadingParameter]
+        private Task<AuthenticationState> AuthenticationState { get; set; }
+
         public void GoToUpdate(int id)
-        {
-            NavigationManager.NavigateTo($"/alunos/update/{id}");
-        }
+
+            => NavigationManager.NavigateTo($"/professores/update/{id}");
+
         protected override async Task OnInitializedAsync()
         {
             var auth = await AuthenticationState;
 
             HideButtons = !auth.User.IsInRole("Gestor");
-            Alunos = await Repository.GetAllAsync();
+
+            Professores = await Repository.GetAllAsync();
         }
     }
 }
-

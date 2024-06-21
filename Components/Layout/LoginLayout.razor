@@ -1,0 +1,22 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inherits LayoutComponentBase
+
+<MudThemingProvider IsDarkMode=" true " />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Elevation="1">
+        <MudText Typo="Typo.h3" Class="ml-3">TreinaÍ</MudText>
+        <MudSpacer />
+        <MudStack>
+            <MudIconButton Href="/" Icon="@Icons.Material.Filled.Home" Color="Color.Inherit" />
+        </MudStack>
+    </MudAppBar>
+
+    <MudMainContent Class="mt-16 pa-4">
+        @Body
+    </MudMainContent>
+
+</MudLayout>

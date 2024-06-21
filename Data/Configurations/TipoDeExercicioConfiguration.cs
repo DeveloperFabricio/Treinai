@@ -8,7 +8,7 @@ namespace Treinaí.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<TipoDeExercicio> builder)
         {
-            builder.ToTable("Tipos de Exercícios");
+            builder.ToTable("TiposdeExercícios");
 
             builder.HasKey(e => e.Id);
 

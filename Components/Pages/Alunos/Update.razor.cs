@@ -73,4 +73,4 @@ namespace Treinaí.Components.Pages.Alunos
         }
     }
 }
-}
+

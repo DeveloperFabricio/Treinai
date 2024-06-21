@@ -28,7 +28,7 @@ namespace Treinaí.Data.Configurations
                 .IsRequired()
                 .HasColumnType("NVARCHAR(11)");
 
-            builder.Property(x => x.PlanoDeTreinoId)
+            builder.Property(x => x.TipoDeExercicioId)
                 .IsRequired(true);
 
             builder.HasIndex(x => x.Documento)

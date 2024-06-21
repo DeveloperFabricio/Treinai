@@ -1,0 +1,47 @@
+﻿@page "/planosdetreinos"
+@inherits IndexPlanoDeTreinoPage
+
+<PageTitle>Planos de Treinos</PageTitle>
+
+<MudText Typo="Typo.h3">Planos de Treinos</MudText>
+
+<MudButton Variant="Variant.Filled"
+           StartIcon="@Icons.Material.Filled.Add"
+           Color="Color.Info"
+           Size="Size.Large"
+           Href="/planosdetreinos/create"
+           Class="mt-md-4 mb-4">
+    Novo Plano de Treino
+</MudButton>
+
+<MudStack Row Wrap="Wrap.Wrap">
+
+    @foreach (var planoDeTreino in PlanosDeTreinos)
+    {
+        <MudPaper Class="pa-2 mt-1 border-dashed" Outlined="true">
+
+            <MudText Class="d-flex justify-center" Typo="Typo.h5">Plano de Treino</MudText>
+
+            <MudStack Row Class="mt-4">
+                <MudText>@planoDeTreino.Professor.Nome</MudText>
+                <MudIcon Icon="@Icons.Material.Filled.Timer" />
+                <MudText>@planoDeTreino.Aluno.Nome</MudText>
+            </MudStack>
+
+            <MudText Class="mt-4" Typo="Typo.body2">@(planoDeTreino.Observacao ?? "Sem Observações...")</MudText>
+
+            <MudDivider Class="mt-4 mb-4" />
+
+            <MudStack Row Class="d-flex justify-content-between mt-4 mb-2">
+                <MudChip Color="Color.Primary">@planoDeTreino.DataTreino.ToString("dd/MM/yyyy") às @planoDeTreino.HoraTreino</MudChip>
+                <MudFab Size="Size.Small"
+                        @onclick="@(() => DeletePlanoDeTreino(planoDeTreino))"
+                        StartIcon="@Icons.Material.Filled.Delete"
+                        hidden="@HideButtons"
+                        Color="Color.Error"></MudFab>
+            </MudStack>
+
+        </MudPaper>
+    }
+
+</MudStack>

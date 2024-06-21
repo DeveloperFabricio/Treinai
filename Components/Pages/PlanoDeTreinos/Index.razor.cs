@@ -1,16 +1,15 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using MudBlazor;
-using Treinaí.Email.EmailsNotifications;
 using Treinaí.Models;
-using Treinaí.Repositories.AlunoRepository;
+using Treinaí.Repositories.PlanoDeTreinoRepository;
 
-namespace Treinaí.Components.Pages.Alunos
+namespace Treinaí.Components.Pages.PlanoDeTreinos
 {
-    public class IndexPage : ComponentBase
+    public class IndexPlanoDeTreinoPage : ComponentBase
     {
         [Inject]
-        public IAlunoRepository Repository { get; set; } = null!;
+        private IPlanoDeTreinoRepository PlanoRepository { get; set; } = null!;
 
         [Inject]
         public IDialogService Dialog { get; set; } = null!;
@@ -18,38 +17,28 @@ namespace Treinaí.Components.Pages.Alunos
         [Inject]
         public ISnackbar Snackbar { get; set; } = null!;
 
-        [Inject]
-        public NavigationManager NavigationManager { get; set; } = null!;
-
-        [Inject]
-        public EmailNotification Notification { get; set; } = null!;
-
-        public List<Aluno> Alunos { get; set; } = new List<Aluno>();
+        public List<PlanoDeTreino> PlanosDeTreinos { get; set; } = new List<PlanoDeTreino>();
 
         public bool HideButtons { get; set; }
 
         [CascadingParameter]
         private Task<AuthenticationState> AuthenticationState { get; set; }
 
-        public async Task DeleteAluno(Aluno aluno)
+        public async Task DeletePlanoDeTreino(PlanoDeTreino planoDeTreino)
         {
             try
             {
                 var result = await Dialog.ShowMessageBox(
-
                     "Atenção",
-                    $"Deseja excluir o aluno {aluno.Nome}?",
+                    "Deseja exluir o Plano de Treino?",
                     yesText: "SIM",
-                    cancelText: "NÃO"
+                    cancelText: "NÂO"
                 );
 
                 if (result is true)
                 {
-                    await Repository.DeleteByIdAsync(aluno.Id);
-
-                    await Notification.DeletarAluno(aluno);
-
-                    Snackbar.Add($"Aluno {aluno.Nome} excluído com sucesso!", Severity.Success);
+                    await PlanoRepository.DeleteByIdAsync(planoDeTreino.Id);
+                    Snackbar.Add("Plano de Treino exluído com sucesso!", Severity.Success);
                     await OnInitializedAsync();
                 }
             }
@@ -57,18 +46,16 @@ namespace Treinaí.Components.Pages.Alunos
             {
                 Snackbar.Add(ex.Message, Severity.Error);
             }
+
         }
 
-        public void GoToUpdate(int id)
-        {
-            NavigationManager.NavigateTo($"/alunos/update/{id}");
-        }
         protected override async Task OnInitializedAsync()
         {
             var auth = await AuthenticationState;
 
             HideButtons = !auth.User.IsInRole("Gestor");
-            Alunos = await Repository.GetAllAsync();
+
+            PlanosDeTreinos = await PlanoRepository.GetAllAsync();
         }
     }
 }

@@ -9,6 +9,10 @@
     <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="Components\Pages\Professores\Index.razor" />
+  </ItemGroup>
+
   
   
   <ItemGroup>
@@ -24,8 +28,19 @@
   
   
   <ItemGroup>
-    <Folder Include="Components\Pages\PlanoDeTreinos\" />
-    <Folder Include="Components\Pages\Professores\" />
+    <UpToDateCheckInput Remove="Components\Pages\Professores\Index.razor" />
+  </ItemGroup>
+
+  
+  
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Components\Pages\Professores\Index.razor" />
+  </ItemGroup>
+
+  
+  
+  <ItemGroup>
+    <None Include="Components\Pages\Professores\Index.razor" />
   </ItemGroup>
 
 </Project>

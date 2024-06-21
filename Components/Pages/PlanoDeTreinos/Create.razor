@@ -1,0 +1,74 @@
+﻿@page "/planosdetreinos/create"
+@using Microsoft.AspNetCore.Authorization
+@inherits CreatePlanoDeTreinoPage
+
+@attribute [Authorize(Roles = "Gestor")]
+
+
+<PageTitle>Planos de Treinos</PageTitle>
+
+<MudText Typo="Typo.h3">Cadastro de Planos de Treinos</MudText>
+
+<MudPaper Class="pa-8 mt-4">
+    <EditForm Model="@InputModel" OnValidSubmit="OnValidSubmitAsync">
+
+        <DataAnnotationsValidator />
+
+        <MudTextField Label="Observação"
+                      Variant="Variant.Outlined"
+                      @bind-Value="InputModel.Observacao"
+                      For="@(() => InputModel.Observacao)"></MudTextField>
+
+        <MudSelect Label="Alunos"
+                   @bind-Value="InputModel.AlunoId"
+                   Variant="Variant.Outlined"
+                   AnchorOrigin="Origin.BottomCenter"
+                   For="@(() => InputModel.AlunoId)">
+
+            @foreach (var aluno in Alunos)
+            {
+                <MudSelectItem Value="@aluno.Id">@aluno.Nome</MudSelectItem>
+            }
+        </MudSelect>
+
+        <MudSelect Label="Professores"
+                   @bind-Value="InputModel.ProfessorId"
+                   Variant="Variant.Outlined"
+                   AnchorOrigin="Origin.BottomCenter"
+                   For="@(() => InputModel.ProfessorId)">
+
+            @foreach (var professor in Professores)
+            {
+                <MudSelectItem Value="@professor.Id">@professor.Nome</MudSelectItem>
+            }
+        </MudSelect>
+
+        <MudDatePicker Variant="Variant.Outlined"
+                       @bind-Date="date"
+                       Label="Data do Treino"
+                       MinDate="MinDate"
+                       DateFormat="dd/MM/yyyy">
+        </MudDatePicker>
+
+        <MudTimePicker @bind-Time="time"
+                       Variant="Variant.Outlined"
+                       Label="Hora do Treino"
+                       AmPm="false">
+        </MudTimePicker>
+
+        <MudDivider Class="m-4" />
+
+        <MudButton Variant="Variant.Filled"
+                   StartIcon="@Icons.Material.Filled.Save"
+                   Color="Color.Info"
+                   Size="Size.Large"
+                   ButtonType="ButtonType.Submit">
+            SALVAR
+        </MudButton>
+
+
+    </EditForm>
+
+
+
+</MudPaper>

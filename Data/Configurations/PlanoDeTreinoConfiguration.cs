@@ -8,7 +8,7 @@ namespace Treinaí.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<PlanoDeTreino> builder)
         {
-            builder.ToTable("Planos de Treinos");
+            builder.ToTable("PlanosdeTreinos");
 
             builder.HasKey(x => x.Id);
 

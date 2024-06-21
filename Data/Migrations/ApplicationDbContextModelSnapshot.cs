@@ -8,7 +8,7 @@ using Treinaí.Data;
 
 #nullable disable
 
-namespace Treinaí.Migrations
+namespace Treinaí.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -52,14 +52,14 @@ namespace Treinaí.Migrations
                         new
                         {
                             Id = "9d0fdc6d-bfd2-4d6f-b5a7-f1c3e8d3f029",
-                            Name = "Professor",
-                            NormalizedName = "PROFESSOR"
+                            Name = "Gestor",
+                            NormalizedName = "GESTOR"
                         },
                         new
                         {
                             Id = "c55cb730-961c-4b88-bc64-c1f5a93b69e4",
-                            Name = "Aluno",
-                            NormalizedName = "ALUNO"
+                            Name = "Professor",
+                            NormalizedName = "PROFESSOR"
                         });
                 });
 
@@ -154,11 +154,6 @@ namespace Treinaí.Migrations
                         {
                             UserId = "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6",
                             RoleId = "9d0fdc6d-bfd2-4d6f-b5a7-f1c3e8d3f029"
-                        },
-                        new
-                        {
-                            UserId = "z1x2c3v4-b5n6-m7a8-s9d0-f1g2h3j4k5l6",
-                            RoleId = "c55cb730-961c-4b88-bc64-c1f5a93b69e4"
                         });
                 });
 
@@ -193,6 +188,11 @@ namespace Treinaí.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(21)
+                        .HasColumnType("nvarchar(21)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -205,10 +205,6 @@ namespace Treinaí.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -249,41 +245,9 @@ namespace Treinaí.Migrations
 
                     b.ToTable("AspNetUsers", (string)null);
 
-                    b.HasData(
-                        new
-                        {
-                            Id = "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "4e28ce5f-6c20-4eee-ac64-e72603a62920",
-                            Email = "professor.joao@exemplo.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            Nome = "Professor João",
-                            NormalizedEmail = "PROFESSOR.JOAO@EXEMPLO.COM",
-                            NormalizedUserName = "PROFESSOR.JOAO@EXEMPLO.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFXyai/aaJ7sernMOQStpC4DD8rclTp8/cqUJQx4B5NVi02s7OL0gUPQUBhPDx1QLg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "2f5a55c8-6d7a-4eb3-a3b4-ee5f48edb667",
-                            TwoFactorEnabled = false,
-                            UserName = "professor.joao@exemplo.com"
-                        },
-                        new
-                        {
-                            Id = "z1x2c3v4-b5n6-m7a8-s9d0-f1g2h3j4k5l6",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "2cf76687-7659-4de4-9838-8fed7d93fd9e",
-                            Email = "aluno.maria@exemplo.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            Nome = "Aluno Maria",
-                            NormalizedEmail = "ALUNO.MARIA@EXEMPLO.COM",
-                            NormalizedUserName = "ALUNO.MARIA@EXEMPLO.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEhqgzkSjf4NWdCY8Rk1bnVT43lJIezus7CjHXdifUXUWjaUaEIKica4oIxAHu+6Gw==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "eb0870d1-617a-4da8-bc6f-d1c2acda5144",
-                            TwoFactorEnabled = false,
-                            UserName = "aluno.maria@exemplo.com"
-                        });
+                    b.HasDiscriminator<string>("Discriminator").HasValue("ApplicationUser");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Treinaí.Models.Aluno", b =>
@@ -376,7 +340,7 @@ namespace Treinaí.Migrations
 
                     b.HasIndex("ProfessorId");
 
-                    b.ToTable("Planos de Treinos", (string)null);
+                    b.ToTable("PlanosdeTreinos", (string)null);
                 });
 
             modelBuilder.Entity("Treinaí.Models.Professor", b =>
@@ -405,9 +369,6 @@ namespace Treinaí.Migrations
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("VARCHAR(50)");
-
-                    b.Property<int>("PlanoDeTreinoId")
-                        .HasColumnType("int");
 
                     b.Property<int>("TipoDeExercicioId")
                         .HasColumnType("int");
@@ -439,7 +400,7 @@ namespace Treinaí.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tipos de Exercícios", (string)null);
+                    b.ToTable("TiposdeExercícios", (string)null);
 
                     b.HasData(
                         new
@@ -477,6 +438,36 @@ namespace Treinaí.Migrations
                             Id = 6,
                             Descricao = "Competição multidisciplinar que inclui natação, ciclismo e corrida.",
                             Nome = "Triathlon"
+                        });
+                });
+
+            modelBuilder.Entity("Treinaí.Models.Gestor", b =>
+                {
+                    b.HasBaseType("Treinaí.Data.ApplicationUser");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("Gestor");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "6db511b1-c99d-435b-8018-694009c22280",
+                            Email = "treinai@exemplo.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "TREINAI@EXEMPLO.COM",
+                            NormalizedUserName = "TREINAI@EXEMPLO.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJ/vItLybGhnO71t0HeBXCPljIuO1fcNV+NiTsBZZhiS6o7QuzhBghvh+LbBwG/Tcw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "0b837ef0-99cc-4137-ada1-efbacc0ce670",
+                            TwoFactorEnabled = false,
+                            UserName = "treinai@exemplo.com",
+                            Nome = "Treinai"
                         });
                 });
 

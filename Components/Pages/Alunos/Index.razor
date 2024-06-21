@@ -7,8 +7,8 @@
            StartIcon="@Icons.Material.Filled.Add"
            Color="Color.Info"
            Size="Size.Large"
-           Href="/pacientes/create"
-           Class="mt-md-4 mb-4">Novo Paciente</MudButton>
+           Href="/alunos/create"
+           Class="mt-md-4 mb-4">Novo Auno</MudButton>
 
 <MudDataGrid Items="@Alunos" Filterable="false" SortMode="@SortMode.Single" Groupable="false">
     <Columns>
@@ -30,7 +30,7 @@
                     <MudFab Size="Size.Small"
                             Label="Excluir"
                             hidden="@HideButtons"
-                            @onclick="@(() => DeletePaciente(context.Item))"
+                            @onclick="@(() => DeleteAluno(context.Item))"
                             StartIcon="@Icons.Material.Filled.Delete"
                             Color="Color.Error" />
                 </MudStack>

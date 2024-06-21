@@ -1,0 +1,14 @@
+﻿@page "/Account/Manage/Logout"
+@using Microsoft.AspNetCore.Identity
+@using Treinaí.Data
+@inject NavigationManager Navigation
+@inject SignInManager<ApplicationUser> SignInManager
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await SignInManager.SignOutAsync();
+        Navigation.NavigateTo("/");
+    }
+}
+
