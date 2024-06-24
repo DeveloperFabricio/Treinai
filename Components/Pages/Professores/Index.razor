@@ -14,12 +14,12 @@
            Novo Professor
 </MudButton>
 
-<MudDataGrid Items ="@Medicos" Filterable="false" SortMode="@SortMode.Single" Groupable="false">
+<MudDataGrid Items ="@Professores" Filterable="false" SortMode="@SortMode.Single" Groupable="false">
 
     <Columns>
         <PropertyColumn Property="x => x.Nome"/>
         <PropertyColumn Property="x => x.Documento"/>
-        <PropertyColumn Property="x => x.Vref" Title="CREF"/>
+        <PropertyColumn Property="x => x.Cref" Title="CREF"/>
         <PropertyColumn Property="x => x.Celular"/>
         <PropertyColumn Property="x => x.TipoDeExercicio.Nome" Title="Tipo de Exercicio"/>
             <TemplateColumn CellClass="d-flex justify-center">
@@ -44,8 +44,6 @@
             </TemplateColumn>
 
     </Columns>
-
-
 
 </MudDataGrid>
 

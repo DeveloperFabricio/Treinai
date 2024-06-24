@@ -12,8 +12,8 @@ using Treinaí.Data;
 namespace Treinaí.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240621193857_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20240624141933_CreateAspNetUsersTable")]
+    partial class CreateAspNetUsersTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -343,7 +343,7 @@ namespace Treinaí.Data.Migrations
 
                     b.HasIndex("ProfessorId");
 
-                    b.ToTable("PlanosdeTreinos", (string)null);
+                    b.ToTable("PlanosdeTreino", (string)null);
                 });
 
             modelBuilder.Entity("Treinaí.Models.Professor", b =>
@@ -459,15 +459,15 @@ namespace Treinaí.Data.Migrations
                         {
                             Id = "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6db511b1-c99d-435b-8018-694009c22280",
+                            ConcurrencyStamp = "988f85e2-b131-4e5a-8d02-0cb99190cfa4",
                             Email = "treinai@exemplo.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "TREINAI@EXEMPLO.COM",
                             NormalizedUserName = "TREINAI@EXEMPLO.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJ/vItLybGhnO71t0HeBXCPljIuO1fcNV+NiTsBZZhiS6o7QuzhBghvh+LbBwG/Tcw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELyQ3tMa8uEKYsfa5J3ATZ5Ek1J047rpntw8ibTLfT3r6oizvL1ccQZURb5T/Fk4jg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0b837ef0-99cc-4137-ada1-efbacc0ce670",
+                            SecurityStamp = "d009a8b4-9f8c-4c4c-bc7e-9170a6932aad",
                             TwoFactorEnabled = false,
                             UserName = "treinai@exemplo.com",
                             Nome = "Treinai"

@@ -15,8 +15,29 @@ namespace Treinaí.Repositories.ProfessorRepository
 
         public async Task AddAsync(Professor professor)
         {
-            _context.Professores.Add(professor);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Professores.Add(professor);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                // Tratar exceção de concorrência (opcional)
+                _context.ChangeTracker.Clear();
+                throw new Exception("Ocorreu um erro de concorrência ao salvar o professor.", ex);
+            }
+            catch (DbUpdateException ex)
+            {
+                // Tratar exceção de falha no update
+                _context.ChangeTracker.Clear();
+                throw new Exception("Ocorreu um erro ao atualizar o banco de dados ao salvar o professor.", ex);
+            }
+            catch (Exception ex)
+            {
+                // Limpar o ChangeTracker e relançar exceção geral
+                _context.ChangeTracker.Clear();
+                throw new Exception("Ocorreu um erro ao salvar o professor.", ex);
+            }
         }
 
         public async Task DeleteByIdAsync(int id)
@@ -28,7 +49,7 @@ namespace Treinaí.Repositories.ProfessorRepository
 
         public async Task<List<Professor>> GetAllAsync()
         {
-            return await _context.Professores.AsNoTracking().ToListAsync();
+            return await _context.Professores.Include(x => x.TipoDeExercicio).AsNoTracking().ToListAsync();
         }
 
         public async Task<Professor?> GetByIdAsync(int id)
@@ -38,8 +59,16 @@ namespace Treinaí.Repositories.ProfessorRepository
 
         public async Task UpdateAsync(Professor professor)
         {
-            _context.Update(professor);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Update(professor);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _context.ChangeTracker.Clear();
+                throw ex;
+            }
         }
     }
 }

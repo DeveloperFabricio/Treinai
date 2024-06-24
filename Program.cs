@@ -1,3 +1,4 @@
+using dotenv.net;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +7,7 @@ using Treinaí.Components;
 using Treinaí.Components.Account;
 using Treinaí.Data;
 using Treinaí.Email;
+using Treinaí.Email.EmailsNotifications;
 using Treinaí.RabbitMQ;
 using Treinaí.Repositories.AlunoRepository;
 using Treinaí.Repositories.PlanoDeTreinoRepository;
@@ -13,6 +15,8 @@ using Treinaí.Repositories.ProfessorRepository;
 using Treinaí.Repositories.TipoDeExercicioRepository;
 
 var builder = WebApplication.CreateBuilder(args);
+
+DotEnv.Load();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -32,6 +36,9 @@ builder.Services.AddScoped<ITipoDeExercicioRepository, TipoDeExercicioRepository
 
 builder.Services.AddSingleton<IRabbitMQService, RabbitMQService>();
 builder.Services.AddSingleton<IEmailService, EmailService>();
+
+builder.Services.AddScoped<EmailNotification>(); 
+
 
 builder.Services.AddAuthentication(options =>
     {

@@ -7,7 +7,7 @@ using Treinaí.Repositories.ProfessorRepository;
 
 namespace Treinaí.Components.Pages.Professores
 {
-    public class IndexProfessorPage : ComponentBase  
+    public class IndexProfessorPage : ComponentBase
     {
         [Inject]
         public IProfessorRepository Repository { get; set; } = null!;
@@ -22,7 +22,7 @@ namespace Treinaí.Components.Pages.Professores
         public NavigationManager NavigationManager { get; set; } = null!;
 
         [Inject]
-        public EmailNotification Notification { get; set; } = null!;
+        public EmailNotification Notification { get; set; } 
         public List<Professor> Professores { get; set; } = new List<Professor>();
 
         public async Task DeleteProfessorAsync(Professor professor)
@@ -41,9 +41,10 @@ namespace Treinaí.Components.Pages.Professores
                 {
                     await Repository.DeleteByIdAsync(professor.Id);
 
+                    Snackbar.Add("Professor excluído com sucesso!", Severity.Success);
+
                     await Notification.DeletarProfessor(professor);
 
-                    Snackbar.Add("Professor excluído com sucesso!", Severity.Success);
                     await OnInitializedAsync();
                 }
             }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
+using Treinaí.Email;
 using Treinaí.Email.EmailsNotifications;
 using Treinaí.Models;
 using Treinaí.Repositories.AlunoRepository;
@@ -27,7 +28,7 @@ namespace Treinaí.Components.Pages.PlanoDeTreinos
         private NavigationManager NavigationManager { get; set; } = null!;
 
         [Inject]
-        private EmailNotification Notification { get; set; } = null!;
+        private EmailNotification Notification { get; set; }
 
         public PlanoDeTreinoInputModel InputModel { get; set; } = new PlanoDeTreinoInputModel();
 
@@ -56,9 +57,10 @@ namespace Treinaí.Components.Pages.PlanoDeTreinos
 
                     await PlanoRepository.AddAsync(planoDeTreino);
 
+                    Snackbar.Add("Plano de Treino criado com sucesso!", Severity.Success);
+
                     await Notification.CriarPlanoDeTreino(planoDeTreino);
 
-                    Snackbar.Add("Plano de Treino criado com sucesso!", Severity.Success);
                     NavigationManager.NavigateTo("/planosdetreinos");
                 }
             }

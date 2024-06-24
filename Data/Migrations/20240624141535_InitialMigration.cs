@@ -237,7 +237,7 @@ namespace Treinaí.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PlanosdeTreinos",
+                name: "PlanosdeTreino",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -250,15 +250,15 @@ namespace Treinaí.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PlanosdeTreinos", x => x.Id);
+                    table.PrimaryKey("PK_PlanosdeTreino", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PlanosdeTreinos_Alunos_AlunoId",
+                        name: "FK_PlanosdeTreino_Alunos_AlunoId",
                         column: x => x.AlunoId,
                         principalTable: "Alunos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_PlanosdeTreinos_Professores_ProfessorId",
+                        name: "FK_PlanosdeTreino_Professores_ProfessorId",
                         column: x => x.ProfessorId,
                         principalTable: "Professores",
                         principalColumn: "Id",
@@ -277,7 +277,7 @@ namespace Treinaí.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Nome", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6", 0, "6db511b1-c99d-435b-8018-694009c22280", "Gestor", "treinai@exemplo.com", true, false, null, "Treinai", "TREINAI@EXEMPLO.COM", "TREINAI@EXEMPLO.COM", "AQAAAAIAAYagAAAAEJ/vItLybGhnO71t0HeBXCPljIuO1fcNV+NiTsBZZhiS6o7QuzhBghvh+LbBwG/Tcw==", null, false, "0b837ef0-99cc-4137-ada1-efbacc0ce670", false, "treinai@exemplo.com" });
+                values: new object[] { "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6", 0, "6af485b5-a5c8-4203-a25d-e010cee109db", "Gestor", "treinai@exemplo.com", true, false, null, "Treinai", "TREINAI@EXEMPLO.COM", "TREINAI@EXEMPLO.COM", "AQAAAAIAAYagAAAAEJba+5cB0jKEIT/yReySqBdiJO4s6oqnB/DAPcnsh5+1gzXBRWnXq7MgZCV6dD50TA==", null, false, "0c8cf28f-a1fe-4327-b3ab-b4bb3d9756b2", false, "treinai@exemplo.com" });
 
             migrationBuilder.InsertData(
                 table: "TiposdeExercícios",
@@ -348,13 +348,13 @@ namespace Treinaí.Data.Migrations
                 column: "TipoDeExercicioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlanosdeTreinos_AlunoId",
-                table: "PlanosdeTreinos",
+                name: "IX_PlanosdeTreino_AlunoId",
+                table: "PlanosdeTreino",
                 column: "AlunoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlanosdeTreinos_ProfessorId",
-                table: "PlanosdeTreinos",
+                name: "IX_PlanosdeTreino_ProfessorId",
+                table: "PlanosdeTreino",
                 column: "ProfessorId");
 
             migrationBuilder.CreateIndex(
@@ -391,7 +391,7 @@ namespace Treinaí.Data.Migrations
                 name: "Exercicios");
 
             migrationBuilder.DropTable(
-                name: "PlanosdeTreinos");
+                name: "PlanosdeTreino");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

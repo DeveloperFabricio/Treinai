@@ -19,9 +19,11 @@ namespace Treinaí.Repositories.PlanoDeTreinoRepository
             await _context.SaveChangesAsync();
         }
 
-        public Task DeleteByIdAsync(int id)
+        public async Task DeleteByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var planoTreino = await GetByIdAsync(id);
+            _context.PlanosDeTreino.Remove(planoTreino);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<PlanoDeTreino>> GetAllAsync()
@@ -39,7 +41,7 @@ namespace Treinaí.Repositories.PlanoDeTreinoRepository
         public async Task<List<PlanoDeTreinoAnuais>?> GetReportAsync()
         {
             var result = _context.Database.SqlQuery<PlanoDeTreinoAnuais>(
-           ($"SELECT MONTH(DataTreino) AS Mes, COUNT(*) AS QuantidadePlanos FROM Planos de Treinos WHERE YEAR(DataTreino) = {DateTime.Today.Year.ToString()} GROUP BY MONTH(DataTreino) ORDER BY Mes;"));
+           ($"SELECT MONTH(DataTreino) AS Mes, COUNT(*) AS QuantidadePlanos FROM PlanosdeTreino WHERE YEAR(DataTreino) = {DateTime.Today.Year.ToString()} GROUP BY MONTH(DataTreino) ORDER BY Mes;"));
             return await Task.FromResult(result.ToList());
         }
     }

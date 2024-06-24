@@ -24,7 +24,7 @@ namespace Treinaí.Components.Pages.Professores
             public NavigationManager NavigationManager { get; set; } = null!;
 
             [Inject]
-            public EmailNotification Notification { get; set; } = null!;
+            public EmailNotification Notification { get; set; } 
 
             public ProfessorInputModel InputModel { get; set; } = new ProfessorInputModel();
 
@@ -49,9 +49,10 @@ namespace Treinaí.Components.Pages.Professores
 
                         await Repository.AddAsync(professor);
 
+                        Snackbar.Add("Professor cadastrado com sucesso!", Severity.Success);
+
                         await Notification.CadastrarProfessor(professor);
 
-                        Snackbar.Add("Professor cadastrado com sucesso!", Severity.Success);
                         NavigationManager.NavigateTo("/professores");
                     }
                 }
@@ -63,8 +64,16 @@ namespace Treinaí.Components.Pages.Professores
 
             protected override async Task OnInitializedAsync()
             {
+            try
+            {
                 TiposDeExercicios = await TipoDeExercicio.GetAllAsync();
+                Console.WriteLine("Tipos de Exercícios carregados com sucesso.");
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Erro ao carregar tipos de exercício: " + ex.Message);
+            }
+        }
         }
     
 }

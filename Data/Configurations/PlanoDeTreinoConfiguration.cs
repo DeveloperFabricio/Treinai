@@ -8,7 +8,7 @@ namespace Treinaí.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<PlanoDeTreino> builder)
         {
-            builder.ToTable("PlanosdeTreinos");
+            builder.ToTable("PlanosdeTreino");
 
             builder.HasKey(x => x.Id);
 
@@ -21,6 +21,14 @@ namespace Treinaí.Data.Configurations
 
             builder.Property(x => x.ProfessorId)
                .IsRequired();
+
+            builder.Property(x => x.HoraTreino)
+           .IsRequired()
+           .HasColumnType("time");
+
+            builder.Property(x => x.DataTreino)
+                .IsRequired()
+                .HasColumnType("datetime2");
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿version: '3.4'
+﻿version: '3.9'
 
 services:
   treinai:
@@ -31,11 +31,17 @@ services:
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
+    volumes:
+      - treinai-db-data:/var/opt/mssql
 
   rabbitmq:
     image: "rabbitmq:3-management"
     ports:
       - "15672:15672"
       - "5672:5672"
+
+volumes:
+  treinai-db-data:
+
 
 

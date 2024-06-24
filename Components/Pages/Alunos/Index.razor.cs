@@ -22,7 +22,7 @@ namespace Treinaí.Components.Pages.Alunos
         public NavigationManager NavigationManager { get; set; } = null!;
 
         [Inject]
-        public EmailNotification Notification { get; set; } = null!;
+        public EmailNotification Notification { get; set; }
 
         public List<Aluno> Alunos { get; set; } = new List<Aluno>();
 
@@ -47,9 +47,9 @@ namespace Treinaí.Components.Pages.Alunos
                 {
                     await Repository.DeleteByIdAsync(aluno.Id);
 
-                    await Notification.DeletarAluno(aluno);
-
                     Snackbar.Add($"Aluno {aluno.Nome} excluído com sucesso!", Severity.Success);
+
+                    await Notification.DeletarAluno(aluno);
                     await OnInitializedAsync();
                 }
             }

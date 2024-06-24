@@ -10,11 +10,13 @@ namespace Treinaí.Email
     {
         private readonly IConfiguration _configuration;
         private readonly IRabbitMQService _rabbitmqService;
+        private readonly ILogger<EmailService> _logger;
 
-        public EmailService(IConfiguration configuration, IRabbitMQService rabbitMQService)
+        public EmailService(IConfiguration configuration, IRabbitMQService rabbitMQService, ILogger<EmailService> logger)
         {
-           _configuration = configuration;
+            _configuration = configuration;
             _rabbitmqService = rabbitMQService;
+            _logger = logger;
         }
 
         public async Task<bool> EnviarEmail(string email, string assunto, string messagem)
@@ -43,16 +45,19 @@ namespace Treinaí.Email
                     smtp.Credentials = new NetworkCredential(username, senha);
                     smtp.EnableSsl = true;
 
+                    _logger.LogInformation("Sending email to {Email} with subject {Assunto}", email, assunto);
                     smtp.Send(mail);
 
                     string rabbitMessage = $"Email enviado para {email} com o assunto: {assunto}";
                     _rabbitmqService.Publish(rabbitMessage);
+                    _logger.LogInformation("Published message to RabbitMQ: {RabbitMessage}", rabbitMessage);
 
                     return true;
                 }
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Failed to send email to {Email} with subject {Assunto}", email, assunto);
                 return false;
             }
         }

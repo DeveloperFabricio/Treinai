@@ -9,13 +9,10 @@
     <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Content Remove="Components\Pages\Professores\Index.razor" />
-  </ItemGroup>
-
   
   
   <ItemGroup>
+    <PackageReference Include="dotenv.net" Version="3.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.*" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.*" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.*" />
@@ -23,24 +20,6 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.1" />
     <PackageReference Include="MudBlazor" Version="6.*" />
     <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
-  </ItemGroup>
-
-  
-  
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Components\Pages\Professores\Index.razor" />
-  </ItemGroup>
-
-  
-  
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Components\Pages\Professores\Index.razor" />
-  </ItemGroup>
-
-  
-  
-  <ItemGroup>
-    <None Include="Components\Pages\Professores\Index.razor" />
   </ItemGroup>
 
 </Project>

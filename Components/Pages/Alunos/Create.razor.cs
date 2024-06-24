@@ -21,7 +21,7 @@ namespace Treinaí.Components.Pages.Alunos
         public ISnackbar Snackbar { get; set; } = null!;
 
         [Inject]
-        public EmailNotification Notification { get; set; } = null!;
+        public EmailNotification Notification { get; set; } 
 
         public AlunoInputModel InputModel { get; set; } = new AlunoInputModel();
 
@@ -46,9 +46,9 @@ namespace Treinaí.Components.Pages.Alunos
 
                     await Repository.AddAsync(aluno);
 
-                    await Notification.CadastrarAluno(aluno);
-
                     Snackbar.Add("Aluno cadastrado com sucesso!", Severity.Success);
+
+                    await Notification.CadastrarAluno(aluno);
                     NavigationManager.NavigateTo("/alunos");
 
                 }

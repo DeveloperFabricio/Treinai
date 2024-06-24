@@ -42,7 +42,7 @@ namespace Treinaí.Email.EmailsNotifications
             await _alunoRepository.DeleteByIdAsync(aluno.Id);
 
             string emailAluno = "fabricio_dev@outlook.com";
-            string assunto = "Seu perfil foi exluído";
+            string assunto = "Seu perfil foi excluído";
             string mensagem = $"Olá {aluno.Nome},\n\nVocê não faz mais parte do quadro de alunos do TreinaÍ.\n\nAtenciosamente,\nEquipe Treinaí";
 
             await _emailService.EnviarEmail(emailAluno, assunto, mensagem);
@@ -54,7 +54,7 @@ namespace Treinaí.Email.EmailsNotifications
             await _professorRepository.AddAsync(professor);
 
             string emailProfessor = "fabricio_dev@outlook.com";
-            string assunto = "Novo proessor cadastrado";
+            string assunto = "Novo professor cadastrado";
             string mensagem = $"Olá Gestor,\n\nUm novo professor se cadastrou na plataforma: {professor.Nome}.\n\nAtenciosamente,\nEquipe Treinaí";
 
             await _emailService.EnviarEmail(emailProfessor, assunto, mensagem);
