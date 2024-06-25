@@ -18,6 +18,7 @@ namespace Treinaí.RabbitMQ
         private readonly string _password;
         private IConnection _connection;
         private readonly ILogger<RabbitMQService> _logger;
+        private readonly IConnectionFactory _factory;
 
         public RabbitMQService(IConfiguration configuration, ILogger<RabbitMQService> logger)
         {
@@ -25,23 +26,24 @@ namespace Treinaí.RabbitMQ
             _username = configuration["RabbitMQ:UserName"];
             _password = configuration["RabbitMQ:Password"];
             _logger = logger;
-
-            CreateConnection();
-        }
-
-        private void CreateConnection()
-        {
-            var factory = new ConnectionFactory
+            _factory = new ConnectionFactory
             {
                 HostName = _hostname,
                 UserName = _username,
                 Password = _password
             };
 
+            CreateConnection();
+        }
+
+        private void CreateConnection()
+        {
+            
+
             try
             {
                 _logger.LogInformation($"Tentando conectar ao RabbitMQ em {_hostname} com usuário {_username}...");
-                _connection = factory.CreateConnection();
+                _connection = _factory.CreateConnection();
                 _logger.LogInformation("Conexão com RabbitMQ estabelecida com sucesso.");
             }
             catch (BrokerUnreachableException ex)
@@ -59,6 +61,13 @@ namespace Treinaí.RabbitMQ
 
         public void Publish(string message)
         {
+
+            if (_connection == null || !_connection.IsOpen)
+            {
+                _logger.LogError("A conexão com RabbitMQ não está aberta. Tentando reconectar...");
+                CreateConnection();
+            }
+
             try
             {
                 using (var channel = _connection.CreateModel())

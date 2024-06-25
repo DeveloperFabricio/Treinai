@@ -19,10 +19,10 @@ COPY --from=build /app/out ./
 
 
 ENV ConnectionStrings__DefaultConnection="Server=localhost,1433;Database=Treinai;User ID=sa;Password=1q2w3e4r@$;Trusted_Connection=False;TrustServerCertificate=True"
-ENV SMTP__UserName="fabricio_dev@outlook.com"
+ENV SMTP__UserName="seu_email_aqui@outlook.com"
 ENV SMTP__Nome="TreinaÍ"
 ENV SMTP__Host="smtp-mail.outlook.com"
-ENV SMTP__Senha="Evelin2305@"
+ENV SMTP__Senha="sua_senha_aqui"
 ENV SMTP__Porta="587"
 ENV RabbitMQ__Host="localhost"
 ENV RabbitMQ__UserName="guest"

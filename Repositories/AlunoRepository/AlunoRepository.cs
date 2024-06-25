@@ -15,8 +15,21 @@ namespace Treinaí.Repositories.AlunoRepository
 
         public async Task AddAsync(Aluno aluno)
         {
-            _context.Alunos.Add(aluno);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Alunos.AddAsync(aluno);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                
+                Console.WriteLine($"Erro ao adicionar aluno: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+                }
+                throw; 
+            }
         }
 
         public async Task DeleteByIdAsync(int id)

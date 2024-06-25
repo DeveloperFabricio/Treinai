@@ -22,19 +22,19 @@ namespace Treinaí.Repositories.ProfessorRepository
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                // Tratar exceção de concorrência (opcional)
+               
                 _context.ChangeTracker.Clear();
                 throw new Exception("Ocorreu um erro de concorrência ao salvar o professor.", ex);
             }
             catch (DbUpdateException ex)
             {
-                // Tratar exceção de falha no update
+                
                 _context.ChangeTracker.Clear();
                 throw new Exception("Ocorreu um erro ao atualizar o banco de dados ao salvar o professor.", ex);
             }
             catch (Exception ex)
             {
-                // Limpar o ChangeTracker e relançar exceção geral
+               
                 _context.ChangeTracker.Clear();
                 throw new Exception("Ocorreu um erro ao salvar o professor.", ex);
             }

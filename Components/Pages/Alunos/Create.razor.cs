@@ -21,7 +21,7 @@ namespace Treinaí.Components.Pages.Alunos
         public ISnackbar Snackbar { get; set; } = null!;
 
         [Inject]
-        public EmailNotification Notification { get; set; } 
+        public EmailNotification Notification { get; set; } = null!;
 
         public AlunoInputModel InputModel { get; set; } = new AlunoInputModel();
 
@@ -41,7 +41,7 @@ namespace Treinaí.Components.Pages.Alunos
                         Documento = inputModel.Documento.SomenteCaracteres(),
                         Celular = inputModel.Celular.SomenteCaracteres(),
                         Email = inputModel.Email,
-                        DataNascimento = DataNascimento.Value
+                        DataNascimento = inputModel.DataNascimento,
                     };
 
                     await Repository.AddAsync(aluno);
