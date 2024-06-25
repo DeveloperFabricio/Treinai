@@ -106,26 +106,35 @@ dotnet run
 2 - Navegue até o diretório raiz do projeto e crie um arquivo Dockerfile com o seguinte conteúdo:
 
 ```bash
-# Use a imagem base do .NET 6 SDK
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+# Use a imagem base do .NET 8 SDK
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
-EXPOSE 80
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /src
-COPY ["Treinai/Treinai.csproj", "Treinai/"]
-RUN dotnet restore "Treinai/Treinai.csproj"
+
+COPY Treinaí.csproj .
+RUN dotnet restore
+
+
 COPY . .
-WORKDIR "/src/Treinai"
-RUN dotnet build "Treinai.csproj" -c Release -o /app/build
+RUN dotnet publish -c Release -o out
 
-FROM build AS publish
-RUN dotnet publish "Treinai.csproj" -c Release -o /app/publish
 
-FROM base AS final
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Treinai.dll"]
+COPY --from=build /app/out ./
+
+
+ENV ConnectionStrings__DefaultConnection="Server=localhost,1433;Database=Treinai;User ID=sa;Password=1q2w3e4r@$;Trusted_Connection=False;TrustServerCertificate=True"
+ENV SMTP__UserName="seu_email_aqui@outlook.com"
+ENV SMTP__Nome="TreinaÍ"
+ENV SMTP__Host="smtp-mail.outlook.com"
+ENV SMTP__Senha="sua_senha_aqui"
+ENV SMTP__Porta="587"
+ENV RabbitMQ__Host="localhost"
+ENV RabbitMQ__UserName="guest"
+ENV RabbitMQ__Password="guest"
+
+ENTRYPOINT ["dotnet", "Treinaí.dll"]
 ```
 
 3 - Crie um arquivo docker-compose.yml com o seguinte conteúdo:
