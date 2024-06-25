@@ -24,10 +24,13 @@
  - ☑ CRUD Planos de Treino
  - ☑ CRUD Séries de Exercício
  - ☑ CRUD Dias de Treino
+ - ☑ Envio de E-mails usando SMTP
  - ☑ Integração com RabbitMQ: Utilização de RabbitMQ para comunicação assíncrona entre componentes do sistema.
  - ☑ Autenticação e Autorização: Utilização do ASP.NET Identity para autenticação e autorização de usuários.
  - ☑ Containerização com Docker: Utilização de Docker para empacotamento e distribuição do aplicativo, garantindo 
       portabilidade e facilidade de implantação.
+ - ☑ Testes Unitários com XUnit:  Com XUnit, você pode escrever testes de maneira simples e clara, melhorando a    
+      confiabilidade e a robustez do seu código.
   
 
 ### Tecnologias utilizadas 💡
@@ -49,6 +52,7 @@
 - ☑ Sql Server 
 - ☑ RabbitMQ
 - ☑ Docker
+- ☑ Testes Unitários
 
  
 ## Instalação
@@ -127,7 +131,7 @@ ENTRYPOINT ["dotnet", "Treinai.dll"]
 3 - Crie um arquivo docker-compose.yml com o seguinte conteúdo:
 
 ```bash
-version: '3.4'
+version: '3.13'
 
 services:
   treinai:
@@ -136,10 +140,22 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "5000:80"
+      - "8080:8080"
+      - "8081:8081"
     depends_on:
       - db
       - rabbitmq
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Server=db;Database=Treinai;User=sa;Password=YourStrong!Passw0rd;"
+      SMTP__UserName: ${SMTP__UserName}
+      SMTP__Nome: ${SMTP__Nome}
+      SMTP__Host: ${SMTP__Host}
+      SMTP__Senha: ${SMTP__Senha}
+      SMTP__Porta: ${SMTP__Porta}
+      RabbitMQ__Host: ${RabbitMQ__Host}
+      RabbitMQ__UserName: ${RabbitMQ__UserName}
+      RabbitMQ__Password: ${RabbitMQ__Password}
 
   db:
     image: mcr.microsoft.com/mssql/server
@@ -148,12 +164,17 @@ services:
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
+    volumes:
+      - treinai-db-data:/var/opt/mssql
 
   rabbitmq:
     image: "rabbitmq:3-management"
     ports:
       - "15672:15672"
       - "5672:5672"
+
+volumes:
+  treinai-db-data:
 ```
 
 4 - No terminal, navegue até o diretório raiz do projeto (onde estão os arquivos Dockerfile e docker-compose.yml) e execute:
@@ -167,7 +188,7 @@ Isso construirá e iniciará os contêineres Docker para a aplicação, banco de
 5 - Acesse a aplicação pelo navegador usando o seguinte endereço
 
 ```bash
-http://localhost:5000
+http://localhost:8080
 ```
 
 ### Contribuição
