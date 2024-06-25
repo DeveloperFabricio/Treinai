@@ -37,6 +37,9 @@
 
 
  - ASP.NET Core 8: Framework web para desenvolvimento de aplicações .NET.
+ - Blazor: Framework da Microsoft que permite o desenvolvimento de aplicações web interativas e ricas utilizando C# e .NET 
+   diretamente no navegador.
+ - MudBlazor: Uma biblioteca de componentes UI para Blazor, baseada no popular Material Design. 
  - Entity Framework Core: Persistência e consulta de dados.
  - SQL Server: Banco de dados relacional.
  - Mensageria com RabbitMQ: Comunicação assíncrona entre serviços.
