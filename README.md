@@ -124,7 +124,7 @@ WORKDIR /app
 COPY --from=build /app/out ./
 
 
-ENV ConnectionStrings__DefaultConnection="Server=localhost,1433;Database=Treinai;User ID=sa;Password=1q2w3e4r@$;Trusted_Connection=False;TrustServerCertificate=True"
+ENV ConnectionStrings__DefaultConnection="Seu_servidor_aqui"
 ENV SMTP__UserName="seu_email_aqui@outlook.com"
 ENV SMTP__Nome="TreinaÍ"
 ENV SMTP__Host="smtp-mail.outlook.com"
